@@ -1,2 +1,3 @@
-# gologger
-Tiny logging server written in Go 
+# ingest
+
+Tiny data collector server, written in Go 
