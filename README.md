@@ -4,16 +4,24 @@ Tiny data collector server, written in Go
 
 ## Usage
 
-`ingest` is a server exposing `POST` endpoint to colelct data. 
+`ingest` is a server exposing endpoint to collect data. You can send data to a **channel** which is like a subject. Each channel has its own data directory and endpoint. 
 
-For example : 
+To post data to a channel reach the following endpoint : 
+
+    http://myserver/data/{channel}
+
+From now you can pass your payload and data will be recorded inside the `/data` docker volume. 
+
+## Example :
 
 ```sh
-curl -s -X POST http://localhost:8080/logs \
-  -H 'Content-Type: application/json' \
-  -d '{"level":"info","message":"hello","service":"myapp"}'
+curl -X POST http://localhost:8080/data/temparature \
+-H "Content-Type: application/json" \
+-d '{"value": 22.5, "unit": "Celsius"}'
 ```
 
-## Format 
+This will add the following line to `/data/temparature` :
 
-TODO
+```json
+{"received_at":"2026-06-10T20:25:07.629794925Z","remote_addr":"172.18.0.1:43004","payload":{"value":22.5,"unit":"Celsius"}}
+```
