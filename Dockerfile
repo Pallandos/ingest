@@ -15,4 +15,6 @@ COPY --from=builder /bin/logserver /logserver
 EXPOSE 8080
 ENV LISTEN_ADDR=:8080
 
+RUN mkdir -p /data
+
 ENTRYPOINT ["/logserver"]
