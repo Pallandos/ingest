@@ -2,6 +2,60 @@
 
 Tiny data collector server, written in Go 
 
+## Installation 
+
+You can use either use `docker run` or `docker compose`. See bellow for examples. 
+<details>
+<summary> `docker compose` </summary>
+
+Create a `docker-compose.yml` file, for example :
+
+```yml
+services:
+  ingest-server:
+    image: ghcr.io/pallandos/ingest:latest
+    ports:
+      - "8080:8080"
+    environment:
+      LISTEN_ADDR: ":8080"
+      DATA_DIR: "/data"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+```
+
+And then run 
+
+    docker compose up -d
+
+</details>
+
+<details>
+<summary> `docker run` </summary>
+
+```sh
+docker run -d \
+  --name ingest-server \
+  -p 8080:8080 \
+  -e LISTEN_ADDR=":8080" \
+  -e DATA_DIR="/data" \
+  -v "$(pwd)/data:/data" \
+  --restart unless-stopped \
+  --log-driver json-file \
+  --log-opt max-size=50m \
+  --log-opt max-file=5 \
+  ghcr.io/pallandos/ingest:latest
+```
+
+</details>
+
+
+
 ## Usage
 
 `ingest` is a server exposing endpoint to collect data. You can send data to a **channel** which is like a subject. Each channel has its own data directory and endpoint. 
