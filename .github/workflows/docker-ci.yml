@@ -1,0 +1,35 @@
+name: build and publish
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read #This is required for actions/checkout
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GH_USERNAME }}
+          password: ${{ secrets.GHB_TOKEN }}
+      
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ghcr.io/${{ secrets.GH_USERNAME }}/ingest:latest
