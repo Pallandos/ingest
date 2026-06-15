@@ -6,7 +6,7 @@ Tiny data collector server, written in Go
 
 You can use either use `docker run` or `docker compose`. See bellow for examples. 
 <details>
-<summary> `docker compose` </summary>
+<summary> <b>docker compose</b> </summary>
 
 Create a `docker-compose.yml` file, for example :
 
@@ -36,7 +36,7 @@ And then run
 </details>
 
 <details>
-<summary> `docker run` </summary>
+<summary> <b>docker run</b> </summary>
 
 ```sh
 docker run -d \
@@ -69,12 +69,12 @@ From now you can pass your payload and data will be recorded inside the `/data` 
 ## Example :
 
 ```sh
-curl -X POST http://localhost:8080/data/temparature \
+curl -X POST http://localhost:8080/data/temperature \
 -H "Content-Type: application/json" \
 -d '{"value": 22.5, "unit": "Celsius"}'
 ```
 
-This will add the following line to `/data/temparature` :
+This will add the following line to `/data/temperature` :
 
 ```json
 {"received_at":"2026-06-10T20:25:07.629794925Z","remote_addr":"172.18.0.1:43004","payload":{"value":22.5,"unit":"Celsius"}}
